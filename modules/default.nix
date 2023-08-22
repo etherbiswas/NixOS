@@ -6,12 +6,12 @@
     ./hyprland
     ./packages
     ./dunst 
-    ./kitty
+    ./alacritty 
     ./waybar
     ./zsh
     ./fuzzel
     ./gtk
     ./direnv
-    ./pwnixos-packages
+   # ./pwnixos-packages
   ];
 }
