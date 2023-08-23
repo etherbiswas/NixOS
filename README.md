@@ -56,7 +56,7 @@ To get started with PwNixOS, follow these steps:
 
 | Action | Shortcut |
 | ------ | -------- |
-| Launch Terminal (kitty) | `WIN` + `ENTER` |
+| Launch Terminal (alacritty) | `WIN` + `ENTER` |
 | Close App | `WIN` + `Q` |
 | Launch App Selector | `WIN` + `D` |
 | Show Power Menu | `WIN` + `X` |
@@ -100,7 +100,7 @@ To get started with PwNixOS, follow these steps:
 
 In order to start or stop the service, it has to be done via systemd using the following commands
 
-```zsh
+```
 systemctl start neo4j
 systemctl stop neo4j
 ```
