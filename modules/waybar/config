@@ -28,13 +28,13 @@
         "max-length": 50
     },
     "clock": {
-        "timezone": "Europe/Madrid",
+        "timezone": "Asia/Dhaka",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "format-alt": "󰃭  {:%d/%m/%Y}",
         "format": "󰥔  {:%H:%M}"
     },
     "backlight": {
-        "device": "intel_backlight",
+        "device": "amd_backlight",
         "format": "{icon}",
         "format-icons": ["", "", "", "", "", "", "", "", ""]
     },
