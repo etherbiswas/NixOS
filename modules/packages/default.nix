@@ -18,6 +18,8 @@ in {
         home.packages = with pkgs; [
           # Basic Tools
           exa
+          htop 
+          neofetch
           fzf
           ripgrep
           ffmpeg
@@ -59,7 +61,7 @@ in {
           php
           jdk
           # GUI Applications
-          kitty
+          alacritty
           librewolf
           firefox-wayland
           wdisplays
