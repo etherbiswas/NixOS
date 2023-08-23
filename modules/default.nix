@@ -8,7 +8,7 @@
     ./dunst 
     ./alacritty 
     ./waybar
-    ./zsh
+    ./fish
     ./fuzzel
     ./gtk
     ./direnv
