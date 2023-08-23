@@ -10,7 +10,7 @@
 
   services.printing.enable = true;
 
-  programs.zsh.enable = true;
+  programs.fish.enable = true;
 
 # Laptop-specific packages (the other ones are installed in `packages.nix`)
   environment.systemPackages = with pkgs; [
@@ -21,8 +21,8 @@
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --greeting 'Welcome to PwNixOS!' --cmd Hyprland";
-        user = "d3fault";
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --greeting 'Welcome to NixOS!' --cmd Hyprland";
+        user = "ether";
       };
     };
   };
@@ -77,7 +77,7 @@
 # Nix settings, auto cleanup and enable flakes
   nix = {
     settings.auto-optimise-store = true;
-    settings.allowed-users = [ "d3fault" ];
+    settings.allowed-users = [ "ether" ];
     gc = {
       automatic = true;
       dates = "weekly";
@@ -93,6 +93,8 @@
 # Boot settings: clean /tmp/, latest kernel and enable bootloader
   boot = {
     tmp.cleanOnBoot = true;
+    readOnlyNixStore = false;
+
     loader = {
       systemd-boot.enable = true;
       systemd-boot.editor = false;
@@ -102,19 +104,19 @@
   };
 
 # Set up locales (timezone and keyboard layout)
-  time.timeZone = "Europe/Madrid";
-  i18n.defaultLocale = "es_ES.UTF-8";
+  time.timeZone = "Asia/Dhaka";
+  i18n.defaultLocale = "en_US.UTF-8";
   console = {
     font = "Lat2-Terminus16";
-    keyMap = "es";
+    keyMap = "us";
   };
 
 # Set up user and enable sudo
-  users.users.d3fault = {
+  users.users.ether = {
     isNormalUser = true;
     extraGroups = [ "input" "wheel" "networkmanager" ];
     initialHashedPassword = "$6$wqCHereET3WM6UIA$XeJIgGkmO2/zAkktN2JCx5hLNS3kSj6seVQBdSWoMeJ5MOrIha6B/HiDjHI4oKDKYhYVwjgQFqGpncU6OI7Ud/"; # password: d3fault
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
   };
 
 # Set up networking and secure it
@@ -160,9 +162,9 @@
       pulse.enable = true;
     };
 
-# Disable bluetooth, enable pulseaudio, enable opengl (for Wayland)
+# Enable bluetooth, enable pulseaudio, enable opengl (for Wayland)
   hardware = {
-    bluetooth.enable = false;
+    bluetooth.enable = true;
     opengl = {
       enable = true;
       driSupport = true;
@@ -170,5 +172,5 @@
   };
 
 # Do not touch
-  system.stateVersion = "23.05";
+  system.stateVersion = "23.11";
 }
