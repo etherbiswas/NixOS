@@ -2,6 +2,20 @@
 
 ![PwNixOS Logo](pics/PwNixOS.png)
 
+## Getting Started
+
+To get started with PwNixOS, follow these steps:
+
+1. [Installation](https://nixos.org/manual/nixos/stable/index.html#ch-installation): Install NixOS on your machine by following the official installation guide.
+2. Clone this repo: `https://github.com/etherbiswas/NixOS.git ~/.config/nixos`
+3. Edit username: By default, the username for all the configuration is `ether` and the hostname is `nixos`. You can change this as you want by editing in all the files (don't forget to rename the folder inside hosts). `grep -i -R ether ~/.config/nixos/` and `grep -i -R nixos ~/.config/nixos/` are useful.
+4. Copy your specific hardware-configuration.nix file: You need to copy you hardware-configuration.nix file located at /etc/nixos/hardware-configuration.nix to the host folder.
+5. Review default.nix file inside pwnix host folder. It contains the configuration for amd and intel. You have to choose one, comment the other.
+6. Enable Nix-Command and Flakes options: Edit your configuration.nix file located at /etc/nixos/configuration.nix adding this line -> `nix.settings.experimental-features = [ "nix-command" "flakes" ];`.
+7. Rebuild your system (without the flake): Open a terminal and run -> `sudo nixos-rebuild switch`. 
+8. Apply the flake: Open a terminal and inside `~/.config/nixos/` run `sudo nixos-rebuild boot --flake <host type> --upgrade`.
+9. Fingers crossed Reboot!
+    
 ## Introduction
 
 Welcome to PwNixOS, a NixOS Flake that combines a strong focus on productivity with powerful tools for hacking. 
@@ -35,20 +49,6 @@ NixOS follows a declarative approach to system configuration. Instead of making 
 ### Custom packages
 
 This flake has [custom hacking tools](https://github.com/exploitoverload/PwNixOS-Packages) that are uploaded to the NUR. The purpose of these tools is to fill in the gaps that exist today in the official repositories and create a full arsenal of tools, with well-known tools such as [BloodHound](https://github.com/BloodHoundAD/BloodHound) and lesser-known tools such as [psudohash](https://github.com/t3l3machus/psudohash).
-
-## Getting Started
-
-To get started with PwNixOS, follow these steps:
-
-1. [Installation](https://nixos.org/manual/nixos/stable/index.html#ch-installation): Install NixOS on your machine by following the official installation guide.
-2. Clone this repo: `https://github.com/etherbiswas/NixOS.git ~/.config/nixos`
-3. Edit username: By default, the username for all the configuration is `ether` and the hostname is `nixos`. You can change this as you want by editing in all the files (don't forget to rename the folder inside hosts). `grep -i -R ether ~/.config/nixos/` and `grep -i -R nixos ~/.config/nixos/` are useful.
-4. Copy your specific hardware-configuration.nix file: You need to copy you hardware-configuration.nix file located at /etc/nixos/hardware-configuration.nix to the host folder.
-5. Review default.nix file inside pwnix host folder. It contains the configuration for amd and intel. You have to choose one, comment the other.
-6. Enable Nix-Command and Flakes options: Edit your configuration.nix file located at /etc/nixos/configuration.nix adding this line -> `nix.settings.experimental-features = [ "nix-command" "flakes" ];`.
-7. Rebuild your system (without the flake): Open a terminal and run -> `sudo nixos-rebuild switch`. 
-8. Apply the flake: Open a terminal and inside `~/.config/nixos/` run `sudo nixos-rebuild boot --flake <host type> --upgrade`.
-9. Reboot and cross fingers.
 
 ## Keyboard Shortcuts
 
