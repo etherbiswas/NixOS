@@ -12,13 +12,12 @@ in {
     ];
 
     programs.zsh = {
-      enable = true;
 
       dotDir = ".config/zsh";
 
       enableCompletion = true;
       enableAutosuggestions = true;
-      enableSyntaxHighlighting = true;
+      SyntaxHighlighting.enable = true;
 
       initExtra = ''
         bindkey "^[[1;3C" forward-word                  # Key Alt + Right

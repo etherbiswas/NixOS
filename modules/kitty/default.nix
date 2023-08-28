@@ -4,12 +4,12 @@ with lib;
 let cfg = config.modules.kitty;
 
 in {
-    options.modules.alacritty = { enable = mkEnableOption "alacritty"; };
+    options.modules.kitty = { enable = mkEnableOption "kitty"; };
     config = mkIf cfg.enable {
         home.packages = with pkgs; [
-          alacritty
+          kitty
         ];
 
-        home.file.".config/alacritty/alacritty.yml".source = ./alacritty.yml;
+        home.file.".config/kitty/kitty.conf".source = ./kitty.conf;
       };
   }

@@ -1,5 +1,5 @@
 {
-  description = "Pwnix: NixOS Dotfiles focused on Hacking and Productivity.";
+  description = "NixOS Dotfiles focused on Productivity.";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -34,7 +34,7 @@
                 useUserPackages = true;
                 useGlobalPkgs = true;
                 extraSpecialArgs = { inherit inputs; };
-                users.d3fault = (./. + "/hosts/${hostname}/user.nix");
+                users.ether = (./. + "/hosts/${hostname}/user.nix");
               };
               nixpkgs.overlays = [
                 nur.overlay
@@ -46,7 +46,7 @@
 
     in {
       nixosConfigurations = {
-        pwnix = mkSystem inputs.nixpkgs "x86_64-linux" "pwnix"; # Change 'pwnix' here and in the name folder inside hosts to change the hostname.
+        b450mh = mkSystem inputs.nixpkgs "x86_64-linux" "b450mh"; # Change 'b450mh' here and in the name folder inside hosts to change the hostname.
       };
     };
 }

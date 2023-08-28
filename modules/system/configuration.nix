@@ -3,10 +3,27 @@
 {
 
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "openssl-1.1.1u"
+  ];
+
 # Remove unecessary preinstalled packages
   environment.defaultPackages = [ ];
 
   environment.sessionVariables = { GTK_USE_PORTAL = "1"; };
+
+  environment.binsh = "${pkgs.dash}/bin/dash";
+
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.lightdm.enableGnomeKeyring = true;
+  services.passSecretService.enable = true;
+  services.passSecretService.package = pkgs.pass-secret-service;
+  services.pcscd.enable = true;
+  programs.gnupg.agent = {
+   enable = true;
+   pinentryFlavor = "curses";
+   enableSSHSupport = true;
+  };
 
   services.printing.enable = true;
 
@@ -14,15 +31,15 @@
 
 # Laptop-specific packages (the other ones are installed in `packages.nix`)
   environment.systemPackages = with pkgs; [
-    acpi tlp git pciutils greetd.tuigreet
+     pinentry-curses acpi tlp git pciutils usbutils greetd.tuigreet github-desktop 
   ];
 
   services.greetd = {
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --greeting 'Welcome to NixOS!' --cmd Hyprland";
         user = "ether";
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --greeting 'Welcome to NixOS!' --cmd Hyprland";
       };
     };
   };
@@ -71,7 +88,7 @@
 
   services.gvfs = {
     enable = true;
-    package = lib.mkForce pkgs.gnome3.gvfs;
+    package = lib.mkForce pkgs.gnome.gvfs;
   };
 
 # Nix settings, auto cleanup and enable flakes
@@ -99,7 +116,7 @@
       systemd-boot.enable = true;
       systemd-boot.editor = false;
       efi.canTouchEfiVariables = true;
-      timeout = 0;
+      timeout = 5;
     };
   };
 
@@ -115,7 +132,7 @@
   users.users.ether = {
     isNormalUser = true;
     extraGroups = [ "input" "wheel" "networkmanager" ];
-    initialHashedPassword = "$6$wqCHereET3WM6UIA$XeJIgGkmO2/zAkktN2JCx5hLNS3kSj6seVQBdSWoMeJ5MOrIha6B/HiDjHI4oKDKYhYVwjgQFqGpncU6OI7Ud/"; # password: d3fault
+    initialHashedPassword = "$y$j9T$AQrvEXZ7rLe81HVwCtSrr.$p6I3tjEDOegpsWQXanReNdqTOE1fcjxn0H5vmXl9Pw3"; # password: 3301
     shell = pkgs.fish;
   };
 
@@ -148,7 +165,8 @@
     sudo.enable = true;
 # Extra security
     protectKernelImage = true;
-    pam.services.swaylock = {};
+    #pam.services.swaylock = {};
+    #pam.services.lightdm.enableGnomeKeyring = true;
   };
 
 # Sound (PipeWire)
