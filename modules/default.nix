@@ -3,17 +3,14 @@
 {
   home.stateVersion = "23.11";
   imports = [
-    ./hyprland
     ./packages
-    ./dunst 
-   # ./kitty
-    ./alacritty
+    ./hyprland
     ./waybar
-    # ./zsh
+    ./alacritty
     ./fish
-    ./fuzzel
     ./gtk
     ./direnv
+    ./dunst
     # ./pwnixos-packages
   ];
 }

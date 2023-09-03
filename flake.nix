@@ -15,9 +15,9 @@
   };
 
   outputs = { nixpkgs, home-manager, nur, ... }@inputs:
-    let 
+    let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system}; 
+      pkgs = nixpkgs.legacyPackages.${system};
       lib = nixpkgs.lib;
 
       mkSystem = pkgs: system: hostname:
@@ -25,9 +25,9 @@
           system = system;
           modules = [
           { networking.hostName = hostname; }
-          ./modules/system/configuration.nix 
+          ./modules/system/configuration.nix
             (./. + "/hosts/${hostname}/hardware-configuration.nix")
-	          (./. + "/hosts/${hostname}/default.nix") # For additional configuration read this file (nvidia, intel, ...).
+	          (./. + "/hosts/${hostname}/default.nix") # For additional configuration read this file (amd, intel, ...).
             home-manager.nixosModules.home-manager
             {
               home-manager = {

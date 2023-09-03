@@ -9,25 +9,22 @@ in {
     home.packages = with pkgs; [
       dconf gtk-engine-murrine gnome.gnome-themes-extra gtk3
     ];
-    home.sessionVariables.GTK_THEME = "Catppuccin-Macchiato-Compact-Mauve-dark";
+    home.sessionVariables.GTK_THEME = "Qogir-Dark";
     gtk = {
       enable = true;
       theme = {
-        name = "Catppuccin-Macchiato-Compact-Mauve-dark";
-        package = pkgs.catppuccin-gtk.override {
-          accents = [ "mauve" ];
-          size = "compact";
-          tweaks = [ ];
-          variant = "macchiato";
-        };
+        name = "Qogir-Dark";
+        package = pkgs.qogir-theme;
+        #package = pkgs.gruvbox-gtk-theme;
       };
       cursorTheme = {
-        name = "Catppuccin-Macchiato-Mauve-Cursors";
-        package = pkgs.catppuccin-cursors.macchiatoMauve;
+        name = "Adwaita";
       };
       iconTheme = {
-          name = "Papirus-Dark";
-          package = pkgs.catppuccin-papirus-folders;
+          name = "Papirus-Light";
+          #name = "Qogir";
+          #package = pkgs.qogir-icon-theme;
+          package = pkgs.papirus-icon-theme;
         };
     };
   };

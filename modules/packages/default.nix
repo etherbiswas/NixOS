@@ -1,7 +1,7 @@
 { inputs, pkgs, lib, config, python3, ... }:
 
 with lib;
-let 
+let
   cfg = config.modules.packages;
   pyenv = ps: with ps; [
     pip
@@ -12,32 +12,36 @@ in {
     config = mkIf cfg.enable {
         home.packages = with pkgs; [
           # Basic Tools
+          ulauncher
+          lxappearance
           exa
-          fzf
-	  htop 
-	  neofetch
-          ripgrep
+    	  htop
+  	      neofetch
           ffmpeg
           gnupg
           imagemagick
           libnotify
           git
-	  openssl
-	  gnome.seahorse
+          github-desktop
+          yt-dlp
+	      openssl
+	      gnome.seahorse
           bat
           wget
+          nano
+          vim
           neovim
+          fzf
+          ripgrep
           gcc
           cmake
           unzip
           unrar
           pavucontrol
           playerctl
-          swaylock-fancy
-          swaylock-effects
           brightnessctl
-          inputs.hypr-contrib.packages.${pkgs.system}.grimblast
           cifs-utils
+          inputs.hypr-contrib.packages.${pkgs.system}.grimblast
           mlocate
           nfs-utils
           openvpn
@@ -57,8 +61,8 @@ in {
           cinnamon.nemo-emblems
           cinnamon.nemo-fileroller
           cinnamon.folder-color-switcher
-	  nur.repos.nltch.spotify-adblock    #for installing spotify-adblock
-          nur.repos.nltch.ciscoPacketTracer8 #for installing packettracer8 
+	      nur.repos.nltch.spotify-adblock    #for installing spotify-adblock
+          nur.repos.nltch.ciscoPacketTracer8 #for installing packettracer8
         ];
       };
   }

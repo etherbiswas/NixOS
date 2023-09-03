@@ -1,21 +1,18 @@
 { config, lib, inputs, pkgs, ...}:
 
 {
-    imports = [ 
+    imports = [
     ../../modules/default.nix
     ];
     config.modules = {
-      dunst.enable = true;
+      direnv.enable = true;
+      packages.enable = true;
       hyprland.enable = true;
-      #kitty.enable = true;
+      waybar.enable = true;
+      gtk.enable = true;
       alacritty.enable = true;
       fish.enable = true;
-      packages.enable = true;
-      waybar.enable = true;
-      #zsh.enable = true;
-      fuzzel.enable = true;
-      gtk.enable = true;
-      direnv.enable = true;
+      dunst.enable = true;
       #pwnixos-packages.enable = false;
     };
 }

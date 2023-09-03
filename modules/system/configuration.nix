@@ -1,7 +1,6 @@
 { config, pkgs, inputs, lib, ... }:
 
 {
-
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [
     "openssl-1.1.1u"
@@ -15,7 +14,6 @@
   environment.binsh = "${pkgs.dash}/bin/dash";
 
   services.gnome.gnome-keyring.enable = true;
-  security.pam.services.lightdm.enableGnomeKeyring = true;
   services.passSecretService.enable = true;
   services.passSecretService.package = pkgs.pass-secret-service;
   services.pcscd.enable = true;
@@ -27,33 +25,37 @@
 
   services.printing.enable = true;
 
+  #services.physlock.enable = true;
+  #services.physlock.allowAnyUser = true;
+
   programs.fish.enable = true;
 
-# Laptop-specific packages (the other ones are installed in `packages.nix`)
+# Systemwide packages
   environment.systemPackages = with pkgs; [
-     pinentry-curses acpi tlp git pciutils usbutils greetd.tuigreet github-desktop 
+     pinentry-curses acpi tlp pciutils usbutils greetd.tuigreet gtklock
   ];
 
   services.greetd = {
     enable = true;
     settings = {
       default_session = {
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --greeting 'Hello Ether Biswas!' --cmd Hyprland";
         user = "ether";
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --greeting 'Welcome to NixOS!' --cmd Hyprland";
       };
     };
   };
-
-
 
 # Adding XWayland support
   programs.hyprland.xwayland.enable = true;
 
 # Install fonts
   fonts = {
-    fonts = with pkgs; [
-      jetbrains-mono
+    packages = with pkgs; [
+        dejavu_fonts
+        jetbrains-mono
         roboto
+        fira-code
+        fira-code-symbols
         openmoji-color
         (nerdfonts.override { fonts = [ "FiraCode" ]; })
         (nerdfonts.override { fonts = [ "FantasqueSansMono" ];})
@@ -63,12 +65,12 @@
       hinting.autohint = true;
       defaultFonts = {
         emoji = [ "OpenMoji Color" ];
+         monospace = [ "DejaVuSans" ];
       };
     };
   };
 
-
-# Wayland stuff: enable XDG integration
+# Enable XDG integration for wayland
   xdg = {
     icons.enable = true;
     portal = {
@@ -80,16 +82,19 @@
     };
   };
 
-# DBUS??
-  
-  programs.dconf.enable = true;
-  services.dbus.packages = with pkgs; [ dconf ];
+# DBUS
   services.dbus.enable = true;
+  services.dbus.packages = with pkgs; [ dconf ];
+  programs.dconf.enable = true;
 
   services.gvfs = {
     enable = true;
     package = lib.mkForce pkgs.gnome.gvfs;
   };
+
+# Fstrim
+  services.fstrim.enable = true;
+  services.fstrim.interval = "weekly";
 
 # Nix settings, auto cleanup and enable flakes
   nix = {
@@ -107,7 +112,7 @@
       '';
   };
 
-# Boot settings: clean /tmp/, latest kernel and enable bootloader
+# Boot settings
   boot = {
     tmp.cleanOnBoot = true;
     readOnlyNixStore = false;
@@ -120,19 +125,14 @@
     };
   };
 
-# Set up locales (timezone and keyboard layout)
+# Set up locales (Timezone and Keyboard layout)
   time.timeZone = "Asia/Dhaka";
   i18n.defaultLocale = "en_US.UTF-8";
-  console = {
-    font = "Lat2-Terminus16";
-    keyMap = "us";
-  };
 
 # Set up user and enable sudo
   users.users.ether = {
     isNormalUser = true;
     extraGroups = [ "input" "wheel" "networkmanager" ];
-    initialHashedPassword = "$y$j9T$AQrvEXZ7rLe81HVwCtSrr.$p6I3tjEDOegpsWQXanReNdqTOE1fcjxn0H5vmXl9Pw3"; # password: 3301
     shell = pkgs.fish;
   };
 
@@ -160,17 +160,17 @@
     NIXPKGS_ALLOW_UNFREE = "1";
   };
 
-# Security 
+# Security
   security = {
     sudo.enable = true;
-# Extra security
+    # Extra security
     protectKernelImage = true;
-    #pam.services.swaylock = {};
-    #pam.services.lightdm.enableGnomeKeyring = true;
+    pam.services.gtklock = {};
+    pam.services.greetd.enableGnomeKeyring = true;
   };
 
-# Sound (PipeWire)
-  sound.enable = true; 
+# Audio (PipeWire)
+  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
