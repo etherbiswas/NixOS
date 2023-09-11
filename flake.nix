@@ -14,6 +14,7 @@
     hypr-contrib.url = "github:hyprwm/contrib";
   };
 
+
   outputs = { nixpkgs, home-manager, nur, ... }@inputs:
     let
       system = "x86_64-linux";
@@ -46,7 +47,7 @@
 
     in {
       nixosConfigurations = {
-        b450mh = mkSystem inputs.nixpkgs "x86_64-linux" "b450mh"; # Change 'b450mh' here and in the name folder inside hosts to change the hostname.
+        areo13 = mkSystem inputs.nixpkgs "x86_64-linux" "areo13";
       };
     };
 }

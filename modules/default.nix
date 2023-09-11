@@ -11,6 +11,7 @@
     ./gtk
     ./direnv
     ./dunst
+    ./ulauncher
     # ./pwnixos-packages
   ];
 }

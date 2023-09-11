@@ -15,8 +15,7 @@ in {
     };
 
     home.file.".config/waybar/style.css".source = ./style.css;
-    home.file.".config/waybar/mocha.css".source = ./mocha.css;
+    home.file.".config/waybar/colors.css".source = ./colors.css;
     home.file.".config/waybar/config".source = ./config;
-    #home.file.".config/waybar/config/scripts/spotify.sh".source = ./scripts/spotify.sh;
   };
 }

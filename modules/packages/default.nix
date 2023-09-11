@@ -12,9 +12,10 @@ in {
     config = mkIf cfg.enable {
         home.packages = with pkgs; [
           # Basic Tools
-          ulauncher
+          lsof
+          wlsunset
+          blueman
           lxappearance
-          exa
     	  htop
   	      neofetch
           ffmpeg
@@ -26,12 +27,10 @@ in {
           yt-dlp
 	      openssl
 	      gnome.seahorse
-          bat
           wget
           nano
           vim
           neovim
-          fzf
           ripgrep
           gcc
           cmake
@@ -47,8 +46,11 @@ in {
           openvpn
           p7zip
           # Proggrmming
+          jq
           (pkgs.python3.withPackages pyenv)
           lua
+          lua-language-server
+          html-tidy
           nodejs
           php
           jdk
@@ -56,11 +58,14 @@ in {
           alacritty
           librewolf
           brave
+          tor-browser-bundle-bin
+          qbittorrent
           wdisplays
           cinnamon.nemo-with-extensions
           cinnamon.nemo-emblems
           cinnamon.nemo-fileroller
           cinnamon.folder-color-switcher
+          spicetify-cli
 	      nur.repos.nltch.spotify-adblock    #for installing spotify-adblock
           nur.repos.nltch.ciscoPacketTracer8 #for installing packettracer8
         ];

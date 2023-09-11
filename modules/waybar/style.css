@@ -1,4 +1,4 @@
-@import "mocha.css";
+@import "colors.css";
 
 * {
   font-family: FantasqueSansMono Nerd Font;
@@ -23,7 +23,7 @@
   border-radius: 1rem;
   padding: 0.4rem;
   box-shadow: inset 0 -3px transparent;
-  transition: all 0.5s cubic-bezier(.55,-0.68,.48,1.68);
+  transition: all 0.5s cubic-bezier(0.55, -0.68, 0.48, 1.68);
   background-color: transparent;
   margin-right: 0.4rem;
 }
@@ -34,12 +34,12 @@
 }
 
 #workspaces button.urgent {
-    background-color: @blue;
-    border-radius: 1rem;
+  background-color: @blue;
+  border-radius: 1rem;
 }
 
 #workspaces button:hover {
-  color: @blue;
+  color: @sliver;
   border-radius: 1rem;
 }
 
@@ -60,7 +60,7 @@
 #clock {
   color: @white;
   /*background-color: transparent;*/
- /* border-radius: 0px 1rem 1rem 0px;
+  /* border-radius: 0px 1rem 1rem 0px;
   margin-right: 1rem; */
 }
 
@@ -80,8 +80,9 @@
   color: @white;
 }
 
-#backlight, #battery {
-    border-radius: 0;
+#backlight,
+#battery {
+  border-radius: 0;
 }
 
 #pulseaudio {
@@ -93,7 +94,7 @@
 #pulseaudio.microphone {
   color: @white;
   border-radius: 1rem 0px 0px 1rem;
-  margin-left: 1rem;
+  margin-left: 0.5rem;
 }
 
 #custom-spotify {
@@ -108,14 +109,14 @@
 }
 
 #custom-lock {
-    border-radius: 1rem 0px 0px 1rem;
-    color: @white;
+  border-radius: 1rem 0px 0px 1rem;
+  color: @white;
 }
 
 #custom-power {
-    margin-right: 1rem;
-    border-radius: 0px 1rem 1rem 0px;
-    color: @white;
+  margin-right: 1rem;
+  border-radius: 0px 1rem 1rem 0px;
+  color: @white;
 }
 
 #tray {

@@ -1,19 +1,13 @@
 {
-    "layer": "top", // Waybar at top layer
-    "position": "top", // Waybar position (top|bottom|left|right)
-    //"width": 1280, // Waybar width
-    // Choose the order of the modules
+    "layer": "top",
+    "position": "top",
     "modules-left": ["wlr/workspaces", "custom/spotify" ],
     "modules-center": ["clock"],
     "modules-right": [
-    "pulseaudio",
-    "pulseaudio#microphone",
-    "battery",
-    "backlight",
     "network",
-    "tray",
+    "pulseaudio",
+    "battery",
     "custom/lock",
-    "custom/power",
     ],
 
     "wlr/workspaces": {
@@ -22,52 +16,33 @@
          "format": " {icon} ",
          "format-icons": {
              "default": "",
-	     //"default": " ",
              "active": "",
-	     //"active": "━",
-	     // "active": "",
          },
      },
-    "tray": {
-        "icon-size": 21,
-        "spacing": 5
-    },
     "custom/spotify": {
-	"format": "  {}",
-        //"format": "󰎆  {}",
+	"format": "   {}",
         "escape": true,
         "interval": 1,
         "tooltip": false,
-        // "exec": "playerctl metadata --format='{{ title }}'",
         "exec": "playerctl metadata --player=spotify --format='{{ title }}'",
 	    "exec-if": "pgrep spotify",
         "on-click":"playerctl --player=spotify play-pause",
-        //"on-click": "playerctl play-pause",
         "max-length": 20
     },
     "clock": {
         "timezone": "Asia/Dhaka",
         "format": "{:%a, %d. %b %I:%M %p}",
     },
-    "backlight": {
-        "device": "intel_backlight",
-        "format": "{icon}",
-        "format-icons": ["", "", "", "", "", "", "", "", ""]
-    },
-    "battery": {
-        "states": {
-            "warning": 30,
-            "critical": 15
-        },
-        "format": "{icon}",
-        "tooltip-format": "{capacity}%",
-        "format-charging": "󰂄",
-        "format-plugged": "󰚥",
-        "format-alt": "{icon}",
-        "format-icons": [ "󰂎", "󰁺", "󰁻",  "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹" ]
+    "network": {
+        "format" : " {essid}",
+        "format-wifi": "   {essid}",
+        "format-ethernet": "󰈀  {essid}",
+        "format-disconected": " Disconnected",
+        "on-click": "wl-copy $(ip a | grep 'inet ' | tail -n 1 | grep -oP 'inet \\K[\\d.]+')",
+        "max-length": 50,
     },
     "pulseaudio": {
-        // "scroll-step": 1, // %, can be a float
+        "scroll-step": 1,
         "format": "{icon}  Vol {volume}%",
         "format-muted": " ",
         "format-icons": {
@@ -75,33 +50,44 @@
         },
         "on-click": "pavucontrol"
     },
-     "pulseaudio#microphone": {
-        "format": "{format_source}",
-        "format-source": "󰍬 Unmute",
-        //"format-source": "󰍬 {volume}%",
-        "format-source-muted": "󰍭  Muted",
-        "on-click": "amixer -D pipewire sset Capture toggle",
-        //"on-scroll-up": "amixer -D pipewire sset Capture 5%+",
-        //"on-scroll-down": "amixer -D pipewire sset Capture 5%-",
-        "scroll-step": 5
-    },
-    "network": {
-        "format" : " {ipaddr}",
-        "format-wifi": "  {ipaddr}",
-        "format-ethernet": "󰈀  {ipaddr}",
-        "format-disconected": " Disconnected",
-        "on-click": "wl-copy $(ip a | grep 'inet ' | tail -n 1 | grep -oP 'inet \\K[\\d.]+')",
-        "max-length": 50,
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "interval": 1,
+        "format": "{icon}  {capacity}%",
+        "tooltip-format": "{capacity}%",
+        "format-charging": "󰂄  {capacity}%",
+        "format-plugged": "󰚥  {capacity}%",
+        "format-icons": [ "󰂎", "󰁺", "󰁻",  "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹" ]
     },
     "custom/lock": {
         "tooltip": false,
         "on-click": "sh -c 'gtklock'",
         "format": "",
     },
+    "tray": {
+        "icon-size": 21,
+        "spacing": 5
+    },
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{icon}",
+        "format-icons": ["", "", "", "", "", "", "", "", ""]
+    },
+     "pulseaudio#microphone": {
+        "format": "{format_source}",
+        "format-source": "󰍬 {volume}%",
+        "format-source-muted": "󰍭  Muted",
+        "on-click": "amixer -D pipewire sset Capture toggle",
+        "on-scroll-up": "amixer -D pipewire sset Capture 5%+",
+        "on-scroll-down": "amixer -D pipewire sset Capture 5%-",
+        "scroll-step": 1
+    },
     "custom/power": {
+	    "format": " ",
         "tooltip": false,
         "on-click": "wlogout &",
-	"format": " "
-        //"format": " "
-    }
+    },
 }

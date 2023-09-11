@@ -24,7 +24,6 @@
   };
 
   services.printing.enable = true;
-
   #services.physlock.enable = true;
   #services.physlock.allowAnyUser = true;
 
@@ -32,7 +31,15 @@
 
 # Systemwide packages
   environment.systemPackages = with pkgs; [
-     pinentry-curses acpi tlp pciutils usbutils greetd.tuigreet gtklock
+     xdg-user-dirs
+     pinentry-curses
+     acpi
+     tlp
+     pciutils
+     usbutils
+     greetd.tuigreet
+     gtklock
+     nix-prefetch-github
   ];
 
   services.greetd = {
@@ -73,6 +80,7 @@
 # Enable XDG integration for wayland
   xdg = {
     icons.enable = true;
+    autostart.enable = true;
     portal = {
       enable = true;
       extraPortals = with pkgs; [
@@ -98,6 +106,7 @@
 
 # Nix settings, auto cleanup and enable flakes
   nix = {
+    settings.sandbox = true;
     settings.auto-optimise-store = true;
     settings.allowed-users = [ "ether" ];
     gc = {
@@ -139,7 +148,7 @@
 # Set up networking and secure it
   networking = {
     networkmanager.enable = true;
-    firewall.enable = false; # This one is necessary to expose ports to the netwok. Usefull for smbserver, responder, http.server, ...
+    firewall.enable = false;
   };
 
 # Set environment variables
@@ -147,6 +156,14 @@
     NIXOS_CONFIG = "$HOME/.config/nixos/configuration.nix";
     NIXOS_CONFIG_DIR = "$HOME/.config/nixos/";
     NIXPKGS_ALLOW_INSECURE = "1";
+    XDG_DESKTOP_DIR="$HOME/Desktop";
+    XDG_DOCUMENTS_DIR="$HOME/Documents";
+    XDG_DOWNLOAD_DIR="$HOME/Downloads";
+    XDG_MUSIC_DIR="$HOME/Music";
+    XDG_PICTURES_DIR="$HOME/Pictures";
+    XDG_PUBLICSHARE_DIR="$HOME/Public";
+    XDG_TEMPLATES_DIR="$HOME/Templates";
+    XDG_VIDEOS_DIR="$HOME/Videos";
     XDG_DATA_HOME = "$HOME/.local/share";
     GTK_RC_FILES = "$HOME/.local/share/gtk-1.0/gtkrc";
     GTK2_RC_FILES = "$HOME/.local/share/gtk-2.0/gtkrc";
@@ -182,7 +199,9 @@
 
 # Enable bluetooth, enable pulseaudio, enable opengl (for Wayland)
   hardware = {
+    bluetooth.package = pkgs.bluez;
     bluetooth.enable = true;
+    bluetooth.powerOnBoot = true;
     opengl = {
       enable = true;
       driSupport = true;
