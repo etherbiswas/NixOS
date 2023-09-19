@@ -24,6 +24,7 @@
   };
 
   services.printing.enable = true;
+  services.ntp.enable = true;
   #services.physlock.enable = true;
   #services.physlock.allowAnyUser = true;
 
