@@ -15,13 +15,13 @@ To get started with PwNixOS, follow these steps:
    rename .git to anything else before introducing new changes.
 5. Edit username: By default, the username for all the configuration is
    `ether` and the hostname is `areo13`. You can change this as you want
-    by editing in all the files (don't forget to rename the folder inside hosts).
+   by editing in all the files (don't forget to rename the folder inside hosts).
    `grep -i -R ether ~/.config/nixos/` and `grep -i -R areo13 ~/.config/nixos/` are useful.
 6. Copy your specific hardware-configuration.nix file: You need to copy your
    hardware-configuration.nix file located at /etc/nixos/hardware-configuration.nix
-   to the hosts folder.
+   to the hosts folder. **Always do this on new installs even if same hardware to avoid boot issues.**
 7. Review default.nix file inside hosts folder. It contains the configuration for amd and intel.
    Choose accordingly to your hardware.
 8. Apply the flake: Open a terminal and inside `~/.config/nixos/` run
-   `sudo nixos-rebuild switch --flake .#<hostname> --upgrade`.
+   `sudo nixos-rebuild switch --flake .#<hostname>`.
 9. Fingers crossed Reboot!
