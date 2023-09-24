@@ -1,7 +1,7 @@
 {
     "layer": "top",
     "position": "top",
-    "modules-left": ["wlr/workspaces", "custom/spotify" ],
+    "modules-left": ["hyprland/workspaces", "custom/spotify" ],
     "modules-center": ["clock"],
     "modules-right": [
     "network",
@@ -10,7 +10,7 @@
     "custom/lock",
     ],
 
-    "wlr/workspaces": {
+    "hyprland/workspaces": {
          "disable-scroll": true,
          "sort-by-name": true,
          "format": " {icon} ",

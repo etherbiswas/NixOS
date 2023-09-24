@@ -53,6 +53,12 @@
     };
   };
 
+# Hyprland
+  programs.hyprland = { 
+    enable = true;
+    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+  };
+
 # Adding XWayland support
   programs.hyprland.xwayland.enable = true;
 
@@ -85,8 +91,8 @@
     portal = {
       enable = true;
       extraPortals = with pkgs; [
-        xdg-desktop-portal-hyprland
-        xdg-desktop-portal-gtk
+        #xdg-desktop-portal-hyprland
+        #xdg-desktop-portal-gtk
       ];
     };
   };
@@ -110,6 +116,8 @@
     settings.sandbox = true;
     settings.auto-optimise-store = true;
     settings.allowed-users = [ "ether" ];
+    settings.substituters = ["https://hyprland.cachix.org"];
+    settings.trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
     gc = {
       automatic = true;
       dates = "weekly";

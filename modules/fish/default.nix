@@ -8,7 +8,7 @@ in {
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       fish
-      exa
+      eza
       bat
       fzf
       fd
@@ -38,8 +38,8 @@ in {
       set -g __fish_git_prompt_color_untrackedfiles $fish_color_normal
       set -g __fish_git_prompt_color_cleanstate green
       set --universal nvm_default_version lts
-      alias ls='exa --long --color auto --icons --sort=type'
-      alias la='exa -a --long --color auto --icons --sort=type'
+      alias ls='eza --long --color auto --icons --sort=type'
+      alias la='eza -a --long --color auto --icons --sort=type'
       '';
         plugins = [
       # Enable plugins
