@@ -17,7 +17,7 @@ in {
           blueman
           lxappearance
     	  htop
-  	  neofetch
+     	  neofetch
           ffmpeg
           gnupg
           imagemagick
@@ -25,8 +25,8 @@ in {
           git
           github-desktop
           yt-dlp
-	  openssl
-	  gnome.seahorse
+    	  openssl
+    	  gnome.seahorse
           wget
           nano
           vim
@@ -66,7 +66,7 @@ in {
           cinnamon.nemo-fileroller
           cinnamon.folder-color-switcher
           spicetify-cli
-	  nur.repos.nltch.spotify-adblock    #for installing spotify-adblock
+    	  nur.repos.nltch.spotify-adblock    #for installing spotify-adblock
           nur.repos.nltch.ciscoPacketTracer8 #for installing packettracer8
         ];
       };
