@@ -39,7 +39,7 @@
     CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
   };
 };
-   services.auto-cpufreq.enable = true;
+  services.auto-cpufreq.enable = true;
 
   programs.fish.enable = true;
 
@@ -51,12 +51,12 @@
      tlp
      pciutils
      usbutils
-     greetd.tuigreet
      gtklock
      nix-prefetch-github
+     greetd.tuigreet
   ];
 
-  services.greetd = {
+ services.greetd = {
     enable = true;
     settings = {
       default_session = {
@@ -73,6 +73,7 @@
   };
 
 # Adding XWayland support
+  programs.xwayland.enable = true;
   programs.hyprland.xwayland.enable = true;
 
 # Install fonts
