@@ -21,6 +21,7 @@ in {
           ffmpeg
           gnupg
           imagemagick
+          gimp
           libnotify
           git
           github-desktop
@@ -42,6 +43,7 @@ in {
           cifs-utils
           inputs.hypr-contrib.packages.${pkgs.system}.grimblast
           mlocate
+          tree
           nfs-utils
           openvpn
           p7zip
@@ -57,7 +59,7 @@ in {
           # GUI Applications
           alacritty
           librewolf
-          #brave
+          brave
           tor-browser-bundle-bin
           qbittorrent
           wdisplays

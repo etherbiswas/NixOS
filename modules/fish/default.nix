@@ -37,7 +37,7 @@ in {
       set -g __fish_git_prompt_color_invalidstate red
       set -g __fish_git_prompt_color_untrackedfiles $fish_color_normal
       set -g __fish_git_prompt_color_cleanstate green
-      set --universal nvm_default_version latest
+      set --universal nvm_default_version lts
       alias ls='eza --long --color auto --icons --sort=type'
       alias la='eza -a --long --color auto --icons --sort=type'
       '';
