@@ -150,9 +150,11 @@
     readOnlyNixStore = false;
     kernel.sysctl = { "vm.swappiness" = 10; "vm.vfs_cache_pressure" = 50; "vm.watermark_scale_factor" = 200; "vm.dirty_ratio" = 3;};
     loader = {
-      systemd-boot.enable = true;
-      systemd-boot.editor = false;
       efi.canTouchEfiVariables = true;
+      grub.enable = true;
+      grub.efiSupport = true;
+      grub.device = "nodev";
+      grub.useOSProber = true;
       timeout = 5;
     };
   };
