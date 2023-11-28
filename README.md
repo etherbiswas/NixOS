@@ -12,26 +12,26 @@ To get started with PwNixOS, follow these steps:
    ```
    nix.settings.experimental-features = [ "nix-command" "flakes" ];
    ```
-4. Rebuild your system (without the flake):
+3. Rebuild your system (without the flake):
    Open a terminal and run ->
    ```
    sudo nixos-rebuild switch
    ```
-6. Clone this repo:
-7. ```
-8. git clone https://github.com/etherbiswas/NixOS ~/dotfiles
-9. ```
+4. Clone this repo:
+   ```
+   git clone https://github.com/etherbiswas/NixOS ~/dotfiles
+   ```
    rename .git to anything else before introducing new changes.
-10. Edit username: By default, the username for all the configuration is
+ 5. Edit username: By default, the username for all the configuration is
    `ether` and the hostname is `areo13`. You can change this as you want
    by editing in all the files (don't forget to rename the folder inside hosts).
    `grep -i -R ether ~/.config/nixos/` and `grep -i -R areo13 ~/.config/nixos/` are useful.
-11. Copy your specific hardware-configuration.nix file: You need to copy your
-   hardware-configuration.nix file located at /etc/nixos/hardware-configuration.nix
-   to the hosts folder. **Always do this on new installs even if same hardware to avoid boot issues.**
-12. Review default.nix file inside hosts folder. It contains the configuration for amd and intel.
-   Choose accordingly to your hardware.
-13. Apply the flake: Open a terminal and inside `~/.config/nixos/` run
+ 6. Copy your specific hardware-configuration.nix file: You need to copy your
+    hardware-configuration.nix file located at /etc/nixos/hardware-configuration.nix
+    to the hosts folder. **Always do this on new installs even if same hardware to avoid boot issues.**
+ 7. Review default.nix file inside hosts folder. It contains the configuration for amd and intel.
+    Choose accordingly to your hardware.
+ 8. Apply the flake: Open a terminal and inside `~/.config/nixos/` run
    ```
    sudo nixos-rebuild switch --flake .#<hostname>
    ```
