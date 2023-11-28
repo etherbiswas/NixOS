@@ -4,7 +4,7 @@
 
 ## Getting Started
 
-To get started with PwNixOS, follow these steps:
+To get started with NixOS, follow these steps:
 
 1. [Installation](https://nixos.org/manual/nixos/stable/index.html#ch-installation): Install NixOS on your machine by following the official installation guide.
 2. Enable Nix-Command and Flakes options: Edit your configuration.nix file located at /etc/nixos/configuration.nix
