@@ -8,10 +8,10 @@ To get started with PwNixOS, follow these steps:
 
 1. [Installation](https://nixos.org/manual/nixos/stable/index.html#ch-installation): Install NixOS on your machine by following the official installation guide.
 2. Enable Nix-Command and Flakes options: Edit your configuration.nix file located at /etc/nixos/configuration.nix
-   adding this line -> `nix.settings.experimental-features = [ "nix-command" "flakes" ];`.
+   adding this line -> ```nix.settings.experimental-features = [ "nix-command" "flakes" ];```
 3. Rebuild your system (without the flake):
-   Open a terminal and run -> `sudo nixos-rebuild switch`.
-4. Clone this repo: `git clone https://github.com/etherbiswas/NixOS ~/dotfiles`
+   Open a terminal and run -> ```sudo nixos-rebuild switch```
+4. Clone this repo: ```git clone https://github.com/etherbiswas/NixOS ~/dotfiles```
    rename .git to anything else before introducing new changes.
 5. Edit username: By default, the username for all the configuration is
    `ether` and the hostname is `areo13`. You can change this as you want
@@ -23,5 +23,5 @@ To get started with PwNixOS, follow these steps:
 7. Review default.nix file inside hosts folder. It contains the configuration for amd and intel.
    Choose accordingly to your hardware.
 8. Apply the flake: Open a terminal and inside `~/.config/nixos/` run
-   `sudo nixos-rebuild switch --flake .#<hostname>`.
+   ```sudo nixos-rebuild switch --flake .#<hostname>```
 9. Fingers crossed Reboot!
