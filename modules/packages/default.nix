@@ -53,7 +53,7 @@ in {
           lua
           lua-language-server
           html-tidy
-          nodejs
+          nodePackages_latest.nodejs
           php
           jdk
           # GUI Applications
