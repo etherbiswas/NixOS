@@ -43,6 +43,7 @@
     },
     "pulseaudio": {
         "scroll-step": 1,
+        "interval": 1,
         "format": "{icon}  Vol {volume}%",
         "format-muted": " ",
         "format-icons": {
