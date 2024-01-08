@@ -56,15 +56,16 @@
      greetd.tuigreet
   ];
 
- services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --greeting 'Hello Ether Biswas!' --cmd Hyprland";
-        user = "ether";
-      };
+services.greetd = {
+  enable = true;
+  settings = rec {
+    initial_session = {
+      command = "Hyprland";
+      user = "ether";
     };
+    default_session = initial_session;
   };
+};
 
 # Hyprland
   programs.hyprland = {
