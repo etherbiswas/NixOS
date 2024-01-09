@@ -79,7 +79,7 @@
 
 # Systemwide packages
   environment.systemPackages = with pkgs; [
-     xdg-user-dirs
+     xdg-desktop-portal-gtk
      pinentry-curses
      acpi
      tlp
