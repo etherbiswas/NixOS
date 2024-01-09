@@ -13,11 +13,11 @@ in {
         home.packages = with pkgs; [
           # Basic Tools
           lsof
-          wlsunset
+          redshift
           blueman
           lxappearance
-    	  htop
-     	  neofetch
+      	  htop
+      	  neofetch
           ffmpeg
           gnupg
           imagemagick
@@ -26,8 +26,8 @@ in {
           git
           github-desktop
           yt-dlp
-    	  openssl
-    	  gnome.seahorse
+    	    openssl
+    	    gnome.seahorse
           wget
           nano
           vim
@@ -39,13 +39,11 @@ in {
           unrar
           pavucontrol
           playerctl
-          brightnessctl
+          #brightnessctl
           cifs-utils
-          inputs.hypr-contrib.packages.${pkgs.system}.grimblast
           mlocate
           tree
           nfs-utils
-          openvpn
           p7zip
           # Programming
           jq
@@ -58,18 +56,13 @@ in {
           jdk
           # GUI Applications
           alacritty
-          librewolf
+          firefox-esr
           brave
           tor-browser-bundle-bin
           qbittorrent
-          wdisplays
-          cinnamon.nemo-with-extensions
-          cinnamon.nemo-emblems
-          cinnamon.nemo-fileroller
-          cinnamon.folder-color-switcher
           spicetify-cli
-    	  nur.repos.nltch.spotify-adblock    #for installing spotify-adblock
-          nur.repos.nltch.ciscoPacketTracer8 #for installing packettracer8
+    	    #nur.repos.nltch.spotify-adblock    #for installing spotify-adblock
+          #nur.repos.nltch.ciscoPacketTracer8 #for installing packettracer8
         ];
       };
   }
