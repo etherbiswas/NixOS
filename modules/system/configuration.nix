@@ -1,3 +1,7 @@
+# Edit this configuration file to define what should be installed on
+# your system.  Help is available in the configuration.nix(5) man page
+# and in the NixOS manual (accessible by running ‘nixos-help’).
+
 { config, pkgs, inputs, lib, ... }:
 
 {
@@ -11,8 +15,6 @@
     settings.sandbox = true;
     settings.auto-optimise-store = true;
     settings.allowed-users = [ "ether" ];
-    settings.substituters = ["https://hyprland.cachix.org"];
-    settings.trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
     gc = {
       automatic = true;
       dates = "weekly";
@@ -40,11 +42,25 @@
     };
   };
 
+# Xorg
+ services.xserver = {
+    enable = true;
+    displayManager.startx.enable = true;
+    windowManager.dwm.enable = true;
+    layout = "us";
+    videoDrivers = [ "amdgpu" ];
+    deviceSection = ''
+      Option "TearFree" "true"
+    ''; # For amdgpu.
+    libinput.enable = true;
+    libinput.naturalScrolling = true;
+  };
+
+ services.picom.enable = true;
+  
 # Remove unecessary preinstalled packages
-  environment.defaultPackages = [ ];
-
+  environment.defaultPackages = [ ]; 
   environment.sessionVariables = { GTK_USE_PORTAL = "1"; };
-
   environment.binsh = "${pkgs.dash}/bin/dash";
 
   services.gnome.gnome-keyring.enable = true;
@@ -94,7 +110,7 @@ services.greetd = {
   enable = true;
   settings = rec {
     initial_session = {
-      command = "Hyprland";
+      command = "dwm";
       user = "ether";
     };
     default_session = initial_session;
@@ -147,6 +163,11 @@ services.greetd = {
 # Set up locales (Timezone and Keyboard layout)
   time.timeZone = "Asia/Dhaka";
   i18n.defaultLocale = "en_US.UTF-8";
+  console = {
+    packages=[ pkgs.terminus_font ];
+    font="${pkgs.terminus_font}/share/consolefonts/ter-i22b.psf.gz";
+    useXkbConfig = true; # use xkbOptions in tty.
+  };
 
 # Set up user and enable sudo
   users.users.ether = {
@@ -160,32 +181,6 @@ services.greetd = {
     #hostname = "nixos";
     networkmanager.enable = true;
     firewall.enable = false;
-  };
-
-# Set environment variables
-  environment.variables = {
-    NIXOS_CONFIG = "$HOME/.config/nixos/configuration.nix";
-    NIXOS_CONFIG_DIR = "$HOME/.config/nixos/";
-    NIXPKGS_ALLOW_INSECURE = "1";
-    XDG_DESKTOP_DIR="$HOME/Desktop";
-    XDG_DOCUMENTS_DIR="$HOME/Documents";
-    XDG_DOWNLOAD_DIR="$HOME/Downloads";
-    XDG_MUSIC_DIR="$HOME/Music";
-    XDG_PICTURES_DIR="$HOME/Pictures";
-    XDG_PUBLICSHARE_DIR="$HOME/Public";
-    XDG_TEMPLATES_DIR="$HOME/Templates";
-    XDG_VIDEOS_DIR="$HOME/Videos";
-    XDG_DATA_HOME = "$HOME/.local/share";
-    GTK_RC_FILES = "$HOME/.local/share/gtk-1.0/gtkrc";
-    GTK2_RC_FILES = "$HOME/.local/share/gtk-2.0/gtkrc";
-    MOZ_ENABLE_WAYLAND = "1";
-    EDITOR = "nvim";
-    DIRENV_LOG_FORMAT = "";
-    ANKI_WAYLAND = "1";
-    DISABLE_QT5_COMPAT = "0";
-    LIBSEAT_BACKEND = "logind";
-    GTK_USE_PORTAL = "1";
-    NIXPKGS_ALLOW_UNFREE = "1";
   };
 
 # Security
@@ -208,7 +203,7 @@ services.greetd = {
       pulse.enable = true;
     };
 
-# Enable bluetooth, enable pulseaudio, enable opengl (for Wayland)
+# Enable bluetooth, enable pulseaudio, enable opengl 
   hardware = {
     bluetooth.package = pkgs.bluez;
     bluetooth.enable = true;
