@@ -6,6 +6,40 @@
     "openssl-1.1.1u"
   ];
 
+# Nix settings, auto cleanup and enable flakes
+  nix = {
+    settings.sandbox = true;
+    settings.auto-optimise-store = true;
+    settings.allowed-users = [ "ether" ];
+    settings.substituters = ["https://hyprland.cachix.org"];
+    settings.trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
+    extraOptions = ''
+      experimental-features = nix-command flakes
+      keep-outputs = true
+      keep-derivations = true
+      '';
+  };
+
+# Boot settings
+  boot = {
+    tmp.cleanOnBoot = true;
+    readOnlyNixStore = true;
+    kernel.sysctl = { "vm.swappiness" = 10; "vm.vfs_cache_pressure" = 50; "vm.watermark_scale_factor" = 200; "vm.dirty_ratio" = 3;};
+    loader = {
+      efi.canTouchEfiVariables = true;
+      grub.enable = true;
+      grub.efiSupport = true;
+      grub.device = "nodev";
+      grub.useOSProber = true;
+      timeout = 5;
+    };
+  };
+
 # Remove unecessary preinstalled packages
   environment.defaultPackages = [ ];
 
@@ -67,16 +101,6 @@ services.greetd = {
   };
 };
 
-# Hyprland
-  programs.hyprland = {
-    enable = true;
-    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-  };
-
-# Adding XWayland support
-  programs.xwayland.enable = true;
-  programs.hyprland.xwayland.enable = true;
-
 # Install fonts
   fonts = {
     packages = with pkgs; [
@@ -99,19 +123,6 @@ services.greetd = {
     };
   };
 
-# Enable XDG integration for wayland
-  xdg = {
-    icons.enable = true;
-    autostart.enable = true;
-    portal = {
-      enable = true;
-      extraPortals = with pkgs; [
-        #xdg-desktop-portal-hyprland
-        #xdg-desktop-portal-gtk
-      ];
-    };
-  };
-
 # DBUS
   services.dbus.enable = true;
   services.dbus.packages = with pkgs; [ dconf ];
@@ -126,40 +137,6 @@ services.greetd = {
   services.fstrim.enable = true;
   services.fstrim.interval = "weekly";
 
-# Nix settings, auto cleanup and enable flakes
-  nix = {
-    settings.sandbox = true;
-    settings.auto-optimise-store = true;
-    settings.allowed-users = [ "ether" ];
-    settings.substituters = ["https://hyprland.cachix.org"];
-    settings.trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 7d";
-    };
-    extraOptions = ''
-      experimental-features = nix-command flakes
-      keep-outputs = true
-      keep-derivations = true
-      '';
-  };
-
-# Boot settings
-  boot = {
-    tmp.cleanOnBoot = true;
-    readOnlyNixStore = false;
-    kernel.sysctl = { "vm.swappiness" = 10; "vm.vfs_cache_pressure" = 50; "vm.watermark_scale_factor" = 200; "vm.dirty_ratio" = 3;};
-    loader = {
-      efi.canTouchEfiVariables = true;
-      grub.enable = true;
-      grub.efiSupport = true;
-      grub.device = "nodev";
-      grub.useOSProber = true;
-      timeout = 5;
-    };
-  };
-
 # Set up locales (Timezone and Keyboard layout)
   time.timeZone = "Asia/Dhaka";
   i18n.defaultLocale = "en_US.UTF-8";
@@ -173,6 +150,7 @@ services.greetd = {
 
 # Set up networking and secure it
   networking = {
+    #hostname = "nixos";
     networkmanager.enable = true;
     firewall.enable = false;
   };
@@ -234,6 +212,19 @@ services.greetd = {
     };
   };
 
-# Do not touch
-  system.stateVersion = "23.11";
+ # Copy the NixOS configuration file and link it from the resulting system
+  # (/run/current-system/configuration.nix). This is useful in case you
+  # accidentally delete configuration.nix.
+  system.copySystemConfiguration = true;
+  system.autoUpgrade.enable = true;
+  system.autoUpgrade.allowReboot = true;
+  #system.autoUpgrade.channel = "https://channels.nixos.org/nixos-24.05";
+
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "23.11"; 
 }
