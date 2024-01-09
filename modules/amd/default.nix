@@ -21,4 +21,4 @@
   }
 
 # Force radv
-#environment.variables.AMD_VULKAN_ICD = "RADV";
+environment.variables.AMD_VULKAN_ICD = "RADV";
