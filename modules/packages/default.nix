@@ -62,6 +62,7 @@ in {
           jdk
           # GUI Applications
           alacritty
+          xfce.thunar
           firefox-esr
           brave
           tor-browser-bundle-bin
