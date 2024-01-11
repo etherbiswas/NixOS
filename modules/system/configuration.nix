@@ -1,3 +1,7 @@
+# Edit this configuration file to define what should be installed on
+# your system.  Help is available in the configuration.nix(5) man page
+# and in the NixOS manual (accessible by running ‘nixos-help’).
+
 { config, pkgs, inputs, lib, ... }:
 
 {
@@ -6,11 +10,64 @@
     "openssl-1.1.1u"
   ];
 
+# Nix settings, auto cleanup and enable flakes
+  nix = {
+    settings.sandbox = true;
+    settings.auto-optimise-store = true;
+    settings.allowed-users = [ "ether" ];
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
+    extraOptions = ''
+      experimental-features = nix-command flakes
+      keep-outputs = true
+      keep-derivations = true
+      '';
+  };
+
+# Boot settings
+  boot = {
+    tmp.cleanOnBoot = true;
+    readOnlyNixStore = true;
+    kernel.sysctl = { "vm.swappiness" = 10; "vm.vfs_cache_pressure" = 50; "vm.watermark_scale_factor" = 200; "vm.dirty_ratio" = 3;};
+    loader = {
+      efi.canTouchEfiVariables = true;
+      grub.enable = true;
+      grub.efiSupport = true;
+      grub.device = "nodev";
+      grub.useOSProber = true;
+      timeout = 5;
+    };
+  };
+
+# Xorg
+ services.xserver = {
+    enable = false;
+    dpi = 180;
+    layout = "us";
+    videoDrivers = [ "amdgpu" ];
+    deviceSection = ''
+      Option "TearFree" "true"
+    ''; # For amdgpu.
+    libinput.enable = true;
+    libinput.touchpad.naturalScrolling = true;
+    displayManager.lightdm.enable = false;
+    displayManager.startx.enable = false;
+    windowManager.dwm.enable = false;
+  };
+
+  programs.fish.enable = true;
+  programs.hyprland.enable = true;
+
+# Adding XWayland support
+  programs.xwayland.enable = true;
+  programs.hyprland.xwayland.enable = true;
+
 # Remove unecessary preinstalled packages
   environment.defaultPackages = [ ];
-
   environment.sessionVariables = { GTK_USE_PORTAL = "1"; };
-
   environment.binsh = "${pkgs.dash}/bin/dash";
 
   services.gnome.gnome-keyring.enable = true;
@@ -25,8 +82,10 @@
 
   services.printing.enable = true;
   services.ntp.enable = true;
-  #services.physlock.enable = true;
-  #services.physlock.allowAnyUser = true;
+  services.picom.enable = false;
+  services.flatpak.enable = true;
+  services.physlock.enable = true;
+  services.physlock.allowAnyUser = true;
 
 # Power Saving
   services.power-profiles-daemon.enable = false;
@@ -41,8 +100,6 @@
 };
   services.auto-cpufreq.enable = true;
 
-  programs.fish.enable = true;
-
 # Systemwide packages
   environment.systemPackages = with pkgs; [
      xdg-user-dirs
@@ -51,31 +108,12 @@
      tlp
      pciutils
      usbutils
-     gtklock
+     nix-prefetch-git
      nix-prefetch-github
-     greetd.tuigreet
+     stdenv
+     neofetch
+     flameshot
   ];
-
-services.greetd = {
-  enable = true;
-  settings = rec {
-    initial_session = {
-      command = "Hyprland";
-      user = "ether";
-    };
-    default_session = initial_session;
-  };
-};
-
-# Hyprland
-  programs.hyprland = {
-    enable = true;
-    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-  };
-
-# Adding XWayland support
-  programs.xwayland.enable = true;
-  programs.hyprland.xwayland.enable = true;
 
 # Install fonts
   fonts = {
@@ -99,17 +137,14 @@ services.greetd = {
     };
   };
 
-# Enable XDG integration for wayland
-  xdg = {
-    icons.enable = true;
-    autostart.enable = true;
-    portal = {
-      enable = true;
+ xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    # gtk portal needed to make gtk apps happy
       extraPortals = with pkgs; [
-        #xdg-desktop-portal-hyprland
-        #xdg-desktop-portal-gtk
+        xdg-desktop-portal-hyprland
       ];
-    };
+    config.common.default = "*";
   };
 
 # DBUS
@@ -126,43 +161,14 @@ services.greetd = {
   services.fstrim.enable = true;
   services.fstrim.interval = "weekly";
 
-# Nix settings, auto cleanup and enable flakes
-  nix = {
-    settings.sandbox = true;
-    settings.auto-optimise-store = true;
-    settings.allowed-users = [ "ether" ];
-    settings.substituters = ["https://hyprland.cachix.org"];
-    settings.trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 7d";
-    };
-    extraOptions = ''
-      experimental-features = nix-command flakes
-      keep-outputs = true
-      keep-derivations = true
-      '';
-  };
-
-# Boot settings
-  boot = {
-    tmp.cleanOnBoot = true;
-    readOnlyNixStore = false;
-    kernel.sysctl = { "vm.swappiness" = 10; "vm.vfs_cache_pressure" = 50; "vm.watermark_scale_factor" = 200; "vm.dirty_ratio" = 3;};
-    loader = {
-      efi.canTouchEfiVariables = true;
-      grub.enable = true;
-      grub.efiSupport = true;
-      grub.device = "nodev";
-      grub.useOSProber = true;
-      timeout = 5;
-    };
-  };
-
 # Set up locales (Timezone and Keyboard layout)
   time.timeZone = "Asia/Dhaka";
   i18n.defaultLocale = "en_US.UTF-8";
+  console = {
+    packages=[ pkgs.terminus_font ];
+    font ="${pkgs.terminus_font}/share/consolefonts/ter-u28n.psf.gz";
+    useXkbConfig = true; # use xkbOptions in tty.
+  };
 
 # Set up user and enable sudo
   users.users.ether = {
@@ -173,34 +179,9 @@ services.greetd = {
 
 # Set up networking and secure it
   networking = {
+    #hostname = "nixos";
     networkmanager.enable = true;
     firewall.enable = false;
-  };
-
-# Set environment variables
-  environment.variables = {
-    NIXOS_CONFIG = "$HOME/.config/nixos/configuration.nix";
-    NIXOS_CONFIG_DIR = "$HOME/.config/nixos/";
-    NIXPKGS_ALLOW_INSECURE = "1";
-    XDG_DESKTOP_DIR="$HOME/Desktop";
-    XDG_DOCUMENTS_DIR="$HOME/Documents";
-    XDG_DOWNLOAD_DIR="$HOME/Downloads";
-    XDG_MUSIC_DIR="$HOME/Music";
-    XDG_PICTURES_DIR="$HOME/Pictures";
-    XDG_PUBLICSHARE_DIR="$HOME/Public";
-    XDG_TEMPLATES_DIR="$HOME/Templates";
-    XDG_VIDEOS_DIR="$HOME/Videos";
-    XDG_DATA_HOME = "$HOME/.local/share";
-    GTK_RC_FILES = "$HOME/.local/share/gtk-1.0/gtkrc";
-    GTK2_RC_FILES = "$HOME/.local/share/gtk-2.0/gtkrc";
-    MOZ_ENABLE_WAYLAND = "1";
-    EDITOR = "nvim";
-    DIRENV_LOG_FORMAT = "";
-    ANKI_WAYLAND = "1";
-    DISABLE_QT5_COMPAT = "0";
-    LIBSEAT_BACKEND = "logind";
-    GTK_USE_PORTAL = "1";
-    NIXPKGS_ALLOW_UNFREE = "1";
   };
 
 # Security
@@ -208,8 +189,8 @@ services.greetd = {
     sudo.enable = true;
     # Extra security
     protectKernelImage = true;
-    pam.services.gtklock = {};
-    pam.services.greetd.enableGnomeKeyring = true;
+    pam.services.physlock = {};
+    #pam.services.lightdm.enableGnomeKeyring = true;
   };
 
 # Audio (PipeWire)
@@ -223,7 +204,7 @@ services.greetd = {
       pulse.enable = true;
     };
 
-# Enable bluetooth, enable pulseaudio, enable opengl (for Wayland)
+# Enable bluetooth, enable pulseaudio, enable opengl
   hardware = {
     bluetooth.package = pkgs.bluez;
     bluetooth.enable = true;
@@ -234,6 +215,18 @@ services.greetd = {
     };
   };
 
-# Do not touch
+ # Copy the NixOS configuration file and link it from the resulting system
+  # (/run/current-system/configuration.nix). This is useful in case you
+  # accidentally delete configuration.nix.
+  system.autoUpgrade.enable = true;
+  system.autoUpgrade.allowReboot = true;
+  #system.autoUpgrade.channel = "https://channels.nixos.org/nixos-24.05";
+
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11";
 }

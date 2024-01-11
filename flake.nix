@@ -1,5 +1,5 @@
 {
-  description = "NixOS Dotfiles focused on Productivity.";
+  description = "NixOS Dotfiles";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -11,10 +11,7 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hypr-contrib.url = "github:hyprwm/contrib";
-    hyprland.url = "github:hyprwm/Hyprland";
   };
-
 
   outputs = { nixpkgs, home-manager, nur, ... }@inputs:
     let
