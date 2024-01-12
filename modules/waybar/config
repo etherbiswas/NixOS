@@ -72,7 +72,7 @@
     },
     "custom/lock": {
         "tooltip": false,
-        "on-click": "sh -c 'gtklock'",
+        "on-click": "sh -c 'wlogout'",
         "format": "",
     },
     "tray": {

@@ -82,10 +82,7 @@
 
   services.printing.enable = true;
   services.ntp.enable = true;
-  services.picom.enable = false;
   services.flatpak.enable = true;
-  services.physlock.enable = true;
-  services.physlock.allowAnyUser = true;
 
 # Power Saving
   services.power-profiles-daemon.enable = false;
@@ -110,6 +107,7 @@
      usbutils
      nix-prefetch-git
      nix-prefetch-github
+     swaylock
      stdenv
      neofetch
      flameshot
@@ -189,7 +187,7 @@
     sudo.enable = true;
     # Extra security
     protectKernelImage = true;
-    pam.services.physlock = {};
+    pam.services.swaylock = {};
     #pam.services.lightdm.enableGnomeKeyring = true;
   };
 
